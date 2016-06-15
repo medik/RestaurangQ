@@ -8,7 +8,7 @@ Genererar en textsträng med vekans lunch.
 """
 
 def getWeeksLunchInDict():
-    f = urllib.request.urlopen('http://www.hors.se/veckans-meny/')
+    f = urllib.request.urlopen('http://www.hors.se/veckans-meny/?rest=171')
     html = f.read()
 
     soup = BeautifulSoup(html, "lxml")
