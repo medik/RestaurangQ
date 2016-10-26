@@ -56,6 +56,16 @@ def printWeeksLunch():
             print(l)
             #print( '*\t' + l)
 
+def printTodaysLunch():
+    lunch = getWeeksLunchInDict()
+
+    wd = datetime.datetime.today().weekday()
+    wday_str = getSwedishWday(wd)
+
+    print("Idag (" + wday_str + ") blir det:")
+    for l in lunch[wday_str]:
+        print('* ' + l)
+
 def main():
     printWeeksLunch()
 
