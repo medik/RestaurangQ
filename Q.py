@@ -67,7 +67,7 @@ def printTodaysLunch():
         print('* ' + l)
 
 def main():
-    printWeeksLunch()
+    printTodaysLunch()
 
 if __name__ == "__main__":
     main()
