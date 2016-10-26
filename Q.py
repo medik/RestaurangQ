@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import urllib.request
+import datetime
 
 """
 Q.py
@@ -39,6 +40,10 @@ def getWeeksLunchInDict():
             # Hoppar ut ur loopen om jag når lördag
             if k == 5:
                 return savedLunches
+
+def getSwedishWday(n):
+    week = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag", "Söndag"]
+    return week[n]
 
 def printWeeksLunch():
     lunch = getWeeksLunchInDict()
