@@ -5,15 +5,15 @@ import datetime
 """
 Q.py
 
-Genererar en textsträng med vekans lunch.
+Genererar en textsträng med veckans lunch.
 """
 
 def getWeeksLunchInDict():
     f = urllib.request.urlopen('http://www.hors.se/veckans-meny/')
     html = f.read()
 
-    soup = BeautifulSoup(html, "lxml")
-    newSoup = soup.findAll('td', { "width" : '33%' }, "lxml")
+    soup = BeautifulSoup(html, "html.parser")
+    newSoup = soup.findAll('td', { "width" : '33%' }, "html.parser")
 
     # Räknar med att det är bara lunch mellan Mån och Fre, tre måltider per dag
 
@@ -25,7 +25,7 @@ def getWeeksLunchInDict():
     i = 0   # Säger vilken måltid jag är på
     k = 0   # Vilken dag jag är på
     for td in newSoup:
-        temp.append(td.string)
+        temp.append(td.text)
         i += 1
 
         if i == 3:
@@ -68,6 +68,7 @@ def printTodaysLunch():
 
 def main():
     printTodaysLunch()
+    #printWeeksLunch()
 
 if __name__ == "__main__":
     main()
