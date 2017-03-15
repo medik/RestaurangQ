@@ -80,13 +80,14 @@ def printTodaysLunch(english=True):
         print('* ' + l, end='')
 
 def main():
-	parser = argparse.ArgumentParser(description="Generate the current weeks lunch at a restaurant owned by Högskolerestauranger AB")
-	parser.add_argument("--today", dest="lunches", action="store_const", const=printTodaysLunch, default=printWeeksLunch, help="Printing todays lunch. (default: this weeks lunches)")
+    parser = argparse.ArgumentParser(description="Generate the current weeks lunch at a restaurant owned by Högskolerestauranger AB")
+    parser.add_argument("--today", dest="lunches", action="store_const", const=printTodaysLunch, default=printWeeksLunch, help="Printing todays lunch. (default: this weeks lunches)")
+    parser.add_argument("--swedish", dest="translateToSwedish", action="store_false")
+    args = parser.parse_args()
 
-	args = parser.parse_args()
-
-	args.lunches()
-	#printTodaysLunch()
+    # Will translate to Swedish if the flag is set i.e. if the variable is False
+    args.lunches(english=args.translateToSwedish)
+    #printTodaysLunch()
     #printWeeksLunch()
 
 if __name__ == "__main__":
