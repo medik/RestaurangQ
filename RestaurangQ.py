@@ -42,6 +42,10 @@ def getWeeksLunchInDict():
             if k == 5:
                 return savedLunches
 
+def getEnglishWday(n):
+	week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+	return week[n]
+
 def getSwedishWday(n):
     week = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag", "Söndag"]
     return week[n]
