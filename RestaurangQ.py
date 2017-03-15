@@ -64,9 +64,9 @@ def printWeeksLunch(english=True):
     for i in range(5):
         wday = getSwedishWday(i) if not english else getEnglishWday(i)
 
-        print(wday)
+        print(wday + ":")
         for l in lunch[getWday(i)]:
-            print(l)
+            print("* " + l, end="")
             #print( '*\t' + l)
 
 def printTodaysLunch(english=True):
