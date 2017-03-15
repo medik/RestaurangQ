@@ -19,7 +19,7 @@ def getWeeksLunchInDict():
     # Räknar med att det är bara lunch mellan Mån och Fre, tre måltider per dag
 
     # Värden som behöver memoreras
-    week = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag"]
+    week = ["Mon", "Tue", "Wed", "Thu", "Fri"]
     savedLunches = {}
     temp = []
 
@@ -50,14 +50,17 @@ def getSwedishWday(n):
     week = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag", "Söndag"]
     return week[n]
 
+def getWday(n):
+    week = ["Mon", "Tue", "Wed", "Thu", "Fri"]
+    return week[n]
+
 def printWeeksLunch():
     lunch = getWeeksLunchInDict()
 
-    week = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag"]
-
-    for wd in week:
-        print(wd)
-        for l in lunch[wd]:
+    for i in range(5):
+        wday = getSwedishWday(i)
+        print(wday)
+        for l in lunch[getWday(i)]:
             print(l)
             #print( '*\t' + l)
 
@@ -68,8 +71,8 @@ def printTodaysLunch():
     wday_str = getSwedishWday(wd)
 
     print("Idag (" + wday_str + ") blir det:")
-    for l in lunch[wday_str]:
-        print('* ' + l)
+    for l in lunch[getWday(wd)]:
+        print('* ' + l, end='')
 
 def main():
 	parser = argparse.ArgumentParser(description="Generate the current weeks lunch at a restaurant owned by Högskolerestauranger AB")
