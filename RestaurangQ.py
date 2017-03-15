@@ -4,9 +4,9 @@ import datetime
 import argparse
 
 """
-Q.py
+RestaurangQ.py
 
-Genererar en textsträng med veckans lunch.
+Generate the current weeks lunch at a restaurant owned by Högskolerestauranger AB
 """
 
 def getWeeksLunchInDict(english=True):
@@ -20,15 +20,12 @@ def getWeeksLunchInDict(english=True):
     soup = BeautifulSoup(html, "html.parser")
     newSoup = soup.findAll('td', { "width" : '33%' }, "html.parser")
 
-    # Räknar med att det är bara lunch mellan Mån och Fre, tre måltider per dag
-
-    # Värden som behöver memoreras
     week = ["Mon", "Tue", "Wed", "Thu", "Fri"]
     savedLunches = {}
     temp = []
 
-    i = 0   # Säger vilken måltid jag är på
-    k = 0   # Vilken dag jag är på
+    i = 0
+    k = 0
     for td in newSoup:
         temp.append(td.text)
         i += 1
@@ -38,11 +35,9 @@ def getWeeksLunchInDict(english=True):
             savedLunches[week[k]] = tpl
             k += 1
 
-            # Resettar värden
             i = 0
             temp = []
 
-            # Hoppar ut ur loopen om jag når lördag
             if k == 5:
                 return savedLunches
 
