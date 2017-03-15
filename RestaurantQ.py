@@ -4,7 +4,7 @@ import datetime
 import argparse
 
 """
-RestaurangQ.py
+RestaurantQ.py
 
 Generate the current weeks lunch at a restaurant owned by Högskolerestauranger AB
 """
