@@ -9,8 +9,12 @@ Q.py
 Genererar en textsträng med veckans lunch.
 """
 
-def getWeeksLunchInDict():
+def getWeeksLunchInDict(english=True):
     f = urllib.request.urlopen('http://www.hors.se/veckans-meny/')
+
+    if english:
+        f = urllib.request.urlopen('http://www.hors.se/veckans-meny/?l=e')
+
     html = f.read()
 
     soup = BeautifulSoup(html, "html.parser")
@@ -54,23 +58,24 @@ def getWday(n):
     week = ["Mon", "Tue", "Wed", "Thu", "Fri"]
     return week[n]
 
-def printWeeksLunch():
-    lunch = getWeeksLunchInDict()
+def printWeeksLunch(english=True):
+    lunch = getWeeksLunchInDict(english=english)
 
     for i in range(5):
-        wday = getSwedishWday(i)
+        wday = getSwedishWday(i) if not english else getEnglishWday(i)
+
         print(wday)
         for l in lunch[getWday(i)]:
             print(l)
             #print( '*\t' + l)
 
-def printTodaysLunch():
-    lunch = getWeeksLunchInDict()
+def printTodaysLunch(english=True):
+    lunch = getWeeksLunchInDict(english=english)
 
     wd = datetime.datetime.today().weekday()
-    wday_str = getSwedishWday(wd)
+    wday = getSwedishWday(wd) if not english else getEnglishWday(wd)
 
-    print("Idag (" + wday_str + ") blir det:")
+    print("" + wday + ":")
     for l in lunch[getWday(wd)]:
         print('* ' + l, end='')
 
