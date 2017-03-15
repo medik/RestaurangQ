@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import urllib.request
 import datetime
+import argparse
 
 """
 Q.py
@@ -67,7 +68,13 @@ def printTodaysLunch():
         print('* ' + l)
 
 def main():
-    printTodaysLunch()
+	parser = argparse.ArgumentParser(description="Generate the current weeks lunch at a restaurant owned by Högskolerestauranger AB")
+	parser.add_argument("--today", dest="lunches", action="store_const", const=printTodaysLunch, default=printWeeksLunch, help="Printing todays lunch. (default: this weeks lunches)")
+
+	args = parser.parse_args()
+
+	args.lunches()
+	#printTodaysLunch()
     #printWeeksLunch()
 
 if __name__ == "__main__":
