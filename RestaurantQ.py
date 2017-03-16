@@ -53,6 +53,10 @@ def getWday(n):
     week = ["Mon", "Tue", "Wed", "Thu", "Fri"]
     return week[n]
 
+def todayWdayNr():
+    ret = datetime.datetime.today().weekday()
+    return ret
+
 def printWeeksLunch(english=True):
     lunch = getWeeksLunchInDict(english=english)
 
@@ -67,7 +71,7 @@ def printWeeksLunch(english=True):
 def printTodaysLunch(english=True):
     lunch = getWeeksLunchInDict(english=english)
 
-    wd = datetime.datetime.today().weekday()
+    wd = todayWdayNr()
     wday = getSwedishWday(wd) if not english else getEnglishWday(wd)
 
     print("" + wday + ":")
