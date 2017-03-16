@@ -84,12 +84,18 @@ def printTodaysLunch(english=True):
 
 def main():
     parser = argparse.ArgumentParser(description="Generate the current weeks lunch at a restaurant owned by Högskolerestauranger AB")
-    parser.add_argument("--today", dest="lunches", action="store_const", const=printTodaysLunch, default=printWeeksLunch, help="Printing todays lunch. (default: this weeks lunches)")
+    #parser.add_argument("--today", dest="lunches", action="store_const", const=printTodaysLunch, default=printWeeksLunch, help="Printing todays lunch. (default: this weeks lunches)")
+    parser.add_argument("--today", dest="showTodayOnly", action="store_true")
     parser.add_argument("--swedish", dest="translateToSwedish", action="store_false")
+    parser.add_argument("--show-past-lunches", dest="showPastLunches", action="store_true")
     args = parser.parse_args()
 
     # Will translate to Swedish if the flag is set i.e. if the variable is False
-    args.lunches(english=args.translateToSwedish)
+    #args.lunches(english=args.translateToSwedish, showPastLunches=args.showPastLunches)
+    if args.showTodayOnly:
+        printTodaysLunch(english=args.translateToSwedish)
+    else:
+        printWeeksLunch(english=args.translateToSwedish, showPastLunches=args.showPastLunches)
     #printTodaysLunch()
     #printWeeksLunch()
 
