@@ -57,16 +57,20 @@ def todayWdayNr():
     ret = datetime.datetime.today().weekday()
     return ret
 
-def printWeeksLunch(english=True):
+def printWeeksLunch(english=True, showPastLunches=True):
     lunch = getWeeksLunchInDict(english=english)
 
-    for i in range(5):
-        wday = getSwedishWday(i) if not english else getEnglishWday(i)
+    todayNr = todayWdayNr() if not showPastLunches else 0
+    if todayNr < 5:
+        for i in range(todayNr, 5):
+            wday = getSwedishWday(i) if not english else getEnglishWday(i)
 
-        print(wday + ":")
-        for l in lunch[getWday(i)]:
-            print("* " + l, end="")
-            #print( '*\t' + l)
+            print(wday + ":")
+            for l in lunch[getWday(i)]:
+                print("* " + l, end="")
+                #print( '*\t' + l)
+    else:
+        print("It is weekend!")
 
 def printTodaysLunch(english=True):
     lunch = getWeeksLunchInDict(english=english)
