@@ -20,7 +20,7 @@ optional arguments:
 
 The rest is pretty self explanatory. I use this together with GeekTools to view the menu on the desktop.
 
-[screenshot](http://i.imgur.com/N19v7h3.jpg)
+![screenshot](http://i.imgur.com/N19v7h3.jpg)
 
 ## Legal
 Do whatever the fuck you want.
