@@ -4,7 +4,7 @@
 This is a program that goes into [the current menu ](http://www.hors.se/veckans-meny/) at the local restaurant located in [Q at KTH](https://www.google.se/maps/place/Restaurang+Q/@59.3502264,18.0655218,17z/data=!3m1!4b1!4m5!3m4!1s0x465f9d14cd33f4db:0xc3214c8075600bd!8m2!3d59.3502264!4d18.0677105). But works also for every other restaurant owned by the same company.
 
 ## How do I use it?
-´´´
+```
 $ python3 RestaurantQ.py -h
 usage: RestaurantQ.py [-h] [--today] [--swedish] [--show-past-lunches]
 
@@ -16,7 +16,7 @@ optional arguments:
   --today
   --swedish
   --show-past-lunches
-´´´
+```
 
 The rest is pretty self explanatory. I use this together with GeekTools to view the menu on the desktop.
 
