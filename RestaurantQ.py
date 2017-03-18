@@ -2,19 +2,34 @@ from bs4 import BeautifulSoup
 import urllib.request
 import datetime
 import argparse
+import arrow
 
 """
 RestaurantQ.py
 
 Generate the current weeks lunch at a restaurant owned by Högskolerestauranger AB
 """
+def getNextWeekDateStr():
+    now = arrow.utcnow()
+    return now.replace(weeks=+1).format('YYYY-MM-DD')
 
-def getWeeksLunchInDict(english=True):
-    f = urllib.request.urlopen('http://www.hors.se/veckans-meny/')
 
-    if english:
-        f = urllib.request.urlopen('http://www.hors.se/veckans-meny/?l=e')
+def getWeeksLunchInDict(english=True, showNextWeek=False):
+    url = ""
+    if showNextWeek:
+        nextWeek = getNextWeekDateStr()
+        url = 'http://www.hors.se/veckans-meny/?week_for=' + nextWeek
 
+        if english:
+            url += '&l=e'
+    else:
+        url = 'http://www.hors.se/veckans-meny/'
+
+        if english:
+            url += '?l=e'
+
+
+    f = urllib.request.urlopen(url)
     html = f.read()
 
     soup = BeautifulSoup(html, "html.parser")
@@ -70,7 +85,14 @@ def printWeeksLunch(english=True, showPastLunches=True):
                 print("* " + l, end="")
                 #print( '*\t' + l)
     else:
-        print("It is weekend!")
+        lunch = getWeeksLunchInDict(english=english, showNextWeek=True)
+        for i in range(0, 5):
+            wday = getSwedishWday(i) if not english else getEnglishWday(i)
+
+            print(wday + ":")
+            for l in lunch[getWday(i)]:
+                print("* " + l, end="")
+                #print( '*\t' + l)
 
 def printTodaysLunch(english=True):
     lunch = getWeeksLunchInDict(english=english)
