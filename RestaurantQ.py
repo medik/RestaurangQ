@@ -95,9 +95,16 @@ def printWeeksLunch(english=True, showPastLunches=True):
                 #print( '*\t' + l)
 
 def printTodaysLunch(english=True):
-    lunch = getWeeksLunchInDict(english=english)
-
     wd = todayWdayNr()
+
+    showNextWeek = False
+    if wd > 4:
+        showNextWeek = True
+        wd = 0
+
+    lunch = getWeeksLunchInDict(english=english, showNextWeek=showNextWeek)
+
+
     wday = getSwedishWday(wd) if not english else getEnglishWday(wd)
 
     print("" + wday + ":")
