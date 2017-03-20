@@ -9,10 +9,15 @@ RestaurantQ.py
 
 Generate the current weeks lunch at a restaurant owned by Högskolerestauranger AB
 """
+def lunchTimeOverToday():
+    closingTime = 14
+    nowTime = arrow.utcnow().hour
+
+    return True if closingTime < nowTime else False
+
 def getNextWeekDateStr():
     now = arrow.utcnow()
     return now.replace(weeks=+1).format('YYYY-MM-DD')
-
 
 def getWeeksLunchInDict(english=True, showNextWeek=False):
     url = ""
@@ -96,6 +101,9 @@ def printWeeksLunch(english=True, showPastLunches=True):
 
 def printTodaysLunch(english=True):
     wd = todayWdayNr()
+
+    if lunchTimeOverToday():
+        wd += 1
 
     showNextWeek = False
     if wd > 4:
