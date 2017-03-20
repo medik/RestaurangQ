@@ -77,10 +77,17 @@ def todayWdayNr():
     ret = datetime.datetime.today().weekday()
     return ret
 
-def printWeeksLunch(english=True, showPastLunches=True):
+def printWeeksLunch(english=True, showPastLunches=False):
     lunch = getWeeksLunchInDict(english=english)
 
-    todayNr = todayWdayNr() if not showPastLunches else 0
+    todayNr = todayWdayNr()
+
+    if lunchTimeOverToday():
+        todayNr += 1
+
+    if not showPastLunches:
+        todayNr = 0
+
     if todayNr < 5:
         for i in range(todayNr, 5):
             wday = getSwedishWday(i) if not english else getEnglishWday(i)
@@ -124,7 +131,7 @@ def main():
     #parser.add_argument("--today", dest="lunches", action="store_const", const=printTodaysLunch, default=printWeeksLunch, help="Printing todays lunch. (default: this weeks lunches)")
     parser.add_argument("--today", dest="showTodayOnly", action="store_true")
     parser.add_argument("--swedish", dest="translateToSwedish", action="store_false")
-    parser.add_argument("--show-past-lunches", dest="showPastLunches", action="store_true")
+    parser.add_argument("--show-past-lunches", dest="showPastLunches", action="store_false")
     args = parser.parse_args()
 
     # Will translate to Swedish if the flag is set i.e. if the variable is False
