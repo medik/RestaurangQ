@@ -11,7 +11,7 @@ Generate the current weeks lunch at a restaurant owned by Högskolerestauranger 
 """
 def lunchTimeOverToday():
     closingTime = 14
-    nowTime = arrow.utcnow().hour
+    nowTime = arrow.utcnow().to("Europe/Stockholm").hour
 
     return True if closingTime < nowTime else False
 
