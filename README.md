@@ -18,9 +18,9 @@ optional arguments:
   --show-past-lunches
 ```
 
-The rest is pretty self explanatory. I use this together with GeekTools to view the menu on the desktop.
+The documentation above is self-explanatory. I use this program together with GeekTools to view this week's lunch menu on my desktop. It looks like this:
 
 ![screenshot](http://i.imgur.com/N19v7h3.jpg)
 
 ## Legal
-Do whatever the fuck you want.
+GPL v3
