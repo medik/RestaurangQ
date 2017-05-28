@@ -110,7 +110,7 @@ def printWeeksLunch(english=True, showPastLunches=False):
 
             print(wday + ":")
             for l in lunch[getWday(i)]:
-                print("* " + l, end="")
+                print("* " + l)
                 #print( '*\t' + l)
     else:
         lunch = getWeeksLunchInDict(english=english, showNextWeek=True)
