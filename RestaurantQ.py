@@ -36,46 +36,35 @@ def getNextWeekDateStr():
     return now.replace(weeks=+1).format('YYYY-MM-DD')
 
 def getWeeksLunchInDict(english=True, showNextWeek=False):
-    url = ""
+    url = 'http://www.hors.se/veckans-meny/?rest=171'
     if showNextWeek:
         nextWeek = getNextWeekDateStr()
-        url = 'http://www.hors.se/veckans-meny/?week_for=' + nextWeek
-
-        if english:
+        url += '&week_for=' + nextWeek
+    if english:
             url += '&l=e'
-    else:
-        url = 'http://www.hors.se/veckans-meny/'
 
-        if english:
-            url += '?l=e'
-
+    # Restaurant Q
+    #url += "&rest=171"
 
     f = urllib.request.urlopen(url)
     html = f.read()
 
     soup = BeautifulSoup(html, "html.parser")
-    newSoup = soup.findAll('td', { "width" : '33%' }, "html.parser")
 
-    week = ["Mon", "Tue", "Wed", "Thu", "Fri"]
-    savedLunches = {}
-    temp = []
+    foodtable = soup.select("#mattabellen")
+    foodtable = foodtable[0]
 
-    i = 0
-    k = 0
-    for td in newSoup:
-        temp.append(td.text)
-        i += 1
+    ret = {}
+    week_index = 0
+    for tr in foodtable.findAll('tr')[1:]:
+        temp = []
+        for td in tr.findAll('td'):
+            if td.text != "":
+                temp.append(td.text)
+        ret[getWday(week_index)] = tuple(temp)
+        week_index += 1
+    return ret
 
-        if i == 3:
-            tpl = tuple(temp)
-            savedLunches[week[k]] = tpl
-            k += 1
-
-            i = 0
-            temp = []
-
-            if k == 5:
-                return savedLunches
 
 def getEnglishWday(n):
 	week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
@@ -140,7 +129,7 @@ def printTodaysLunch(english=True):
 
     print("" + wday + ":")
     for l in lunch[getWday(wd)]:
-        print('* ' + l, end='')
+        print('* ' + l)
 
 def main():
     parser = argparse.ArgumentParser(description="Generate the current weeks lunch at a restaurant owned by Högskolerestauranger AB")
