@@ -146,6 +146,11 @@ def saveToCache():
     with open(cacheLoc, 'w') as outfile:
         json.dump(cacheCont, outfile)
 
+def loadCache():
+    cacheLoc = "/tmp/restaurant_q.tmp"
+    with open(cacheLoc, "r") as o:        
+        cache = json.loads(o.read())
+        print(cache["lunches"])
 
 def main():
     parser = argparse.ArgumentParser(description="Generate the current weeks lunch at a restaurant owned by Högskolerestauranger AB")
