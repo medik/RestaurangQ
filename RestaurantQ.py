@@ -3,6 +3,7 @@ import urllib.request
 import datetime
 import argparse
 import arrow
+import json
 
 """
 RestaurantQ.py
@@ -131,6 +132,21 @@ def printTodaysLunch(english=True):
     for l in lunch[getWday(wd)]:
         print('* ' + l)
 
+# Cache management
+
+def saveToCache():
+    cacheLoc = "/tmp/restaurant_q.tmp"
+    lunch = getWeeksLunchInDict(True, showNextWeek=False)
+
+    cacheCont = {}
+    nextWeekDl = 5-todayWdayNr()
+    cacheCont["next_dl"] = str(datetime.date.today() + datetime.timedelta(days=nextWeekDl))
+    cacheCont["lunches"] = lunch
+    
+    with open(cacheLoc, 'w') as outfile:
+        json.dump(cacheCont, outfile)
+
+
 def main():
     parser = argparse.ArgumentParser(description="Generate the current weeks lunch at a restaurant owned by Högskolerestauranger AB")
     #parser.add_argument("--today", dest="lunches", action="store_const", const=printTodaysLunch, default=printWeeksLunch, help="Printing todays lunch. (default: this weeks lunches)")
@@ -141,6 +157,7 @@ def main():
 
     # Will translate to Swedish if the flag is set i.e. if the variable is False
     #args.lunches(english=args.translateToSwedish, showPastLunches=args.showPastLunches)
+
     if args.showTodayOnly:
         printTodaysLunch(english=args.translateToSwedish)
     else:
