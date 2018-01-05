@@ -46,7 +46,9 @@ def getWeeksLunchInDict(english=True, showNextWeek=False):
 
     # Restaurant Q
     #url += "&rest=171"
+    return downloadLunchesToDict(url)
 
+def downloadLunchesToDict(url):
     f = urllib.request.urlopen(url)
     html = f.read()
 
@@ -65,7 +67,7 @@ def getWeeksLunchInDict(english=True, showNextWeek=False):
         ret[getWday(week_index)] = tuple(temp)
         week_index += 1
     return ret
-
+    
 
 def getEnglishWday(n):
 	week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
@@ -172,3 +174,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
