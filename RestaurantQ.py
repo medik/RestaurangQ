@@ -4,6 +4,7 @@ import datetime
 import argparse
 import arrow
 import json
+import os.path
 
 """
 RestaurantQ.py
@@ -37,16 +38,18 @@ def getNextWeekDateStr():
     return now.replace(weeks=+1).format('YYYY-MM-DD')
 
 def getWeeksLunchInDict(english=True, showNextWeek=False):
-    url = 'http://www.hors.se/veckans-meny/?rest=171'
-    if showNextWeek:
-        nextWeek = getNextWeekDateStr()
-        url += '&week_for=' + nextWeek
-    if english:
+    if existenceOfCache():
+        return loadCache()        
+    else:
+            
+        url = 'http://www.hors.se/veckans-meny/?rest=171'
+        if showNextWeek:
+            nextWeek = getNextWeekDateStr()
+            url += '&week_for=' + nextWeek
+        if english:
             url += '&l=e'
 
-    # Restaurant Q
-    #url += "&rest=171"
-    return downloadLunchesToDict(url)
+        return downloadLunchesToDict(url)
 
 def downloadLunchesToDict(url):
     f = urllib.request.urlopen(url)
@@ -136,8 +139,9 @@ def printTodaysLunch(english=True):
 
 # Cache management
 
+CACHE_LOC = "/tmp/restaurant_q.tmp"
+
 def saveToCache():
-    cacheLoc = "/tmp/restaurant_q.tmp"
     lunch = getWeeksLunchInDict(True, showNextWeek=False)
 
     cacheCont = {}
@@ -145,14 +149,25 @@ def saveToCache():
     cacheCont["next_dl"] = str(datetime.date.today() + datetime.timedelta(days=nextWeekDl))
     cacheCont["lunches"] = lunch
     
-    with open(cacheLoc, 'w') as outfile:
+    with open(CACHE_LOC, 'w') as outfile:
         json.dump(cacheCont, outfile)
 
 def loadCache():
-    cacheLoc = "/tmp/restaurant_q.tmp"
-    with open(cacheLoc, "r") as o:        
+    with open(CACHE_LOC, "r") as o:        
         cache = json.loads(o.read())
-        print(cache["lunches"])
+        
+        # Update cache if it is due
+        dueDate = datetime.datetime.strptime(cache['next_dl'], '%Y-%m-%d')
+        if datetime.datetime.today() >= dueDate:
+            saveToCache()
+            return loadCache()
+        else:
+            return cache["lunches"]
+
+
+def existenceOfCache():
+    return os.path.isfile(CACHE_LOC)
+    
 
 def main():
     parser = argparse.ArgumentParser(description="Generate the current weeks lunch at a restaurant owned by Högskolerestauranger AB")
