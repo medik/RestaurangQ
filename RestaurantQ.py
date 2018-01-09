@@ -5,6 +5,7 @@ import argparse
 import arrow
 import json
 import os.path
+import os
 
 """
 RestaurantQ.py
@@ -139,17 +140,15 @@ def printTodaysLunch(english=True):
 
 # Cache management
 
-CACHE_LOC = "/tmp/restaurant_q.tmp"
+CACHE_LOC = os.getenv("HOME") + "/.cache/restaurant_q.tmp"
 
-def saveToCache():
-    lunch = getWeeksLunchInDict(True, showNextWeek=False)
-
+def saveToCache(lunch):
     cacheCont = {}
     nextWeekDl = 5-todayWdayNr()
     cacheCont["next_dl"] = str(datetime.date.today() + datetime.timedelta(days=nextWeekDl))
     cacheCont["lunches"] = lunch
     
-    with open(CACHE_LOC, 'w') as outfile:
+    with open(CACHE_LOC, 'w+') as outfile:
         json.dump(cacheCont, outfile)
 
 def loadCache():
