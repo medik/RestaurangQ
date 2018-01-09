@@ -42,15 +42,20 @@ def getWeeksLunchInDict(english=True, showNextWeek=False):
     if existenceOfCache():
         return loadCache()        
     else:
-            
-        url = 'http://www.hors.se/veckans-meny/?rest=171'
-        if showNextWeek:
-            nextWeek = getNextWeekDateStr()
-            url += '&week_for=' + nextWeek
-        if english:
-            url += '&l=e'
+        return updateCacheAndReturnLunches(english, showNextWeek)
 
-        return downloadLunchesToDict(url)
+def updateCacheAndReturnLunches(english=True, showNextWeek=False):
+    url = 'http://www.hors.se/veckans-meny/?rest=171'
+    if showNextWeek:
+        nextWeek = getNextWeekDateStr()
+        url += '&week_for=' + nextWeek
+    if english:
+        url += '&l=e'
+
+    lunch = downloadLunchesToDict(url)
+    saveToCache(lunch)
+    return lunch
+    
 
 def downloadLunchesToDict(url):
     f = urllib.request.urlopen(url)
@@ -158,11 +163,9 @@ def loadCache():
         # Update cache if it is due
         dueDate = datetime.datetime.strptime(cache['next_dl'], '%Y-%m-%d')
         if datetime.datetime.today() >= dueDate:
-            saveToCache()
-            return loadCache()
+            return updateCacheAndReturnLunches()
         else:
             return cache["lunches"]
-
 
 def existenceOfCache():
     return os.path.isfile(CACHE_LOC)
