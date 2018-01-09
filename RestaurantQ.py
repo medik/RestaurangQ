@@ -12,7 +12,7 @@ RestaurantQ.py
 --------------
 A program that shows what lunches are available on Restaurant Q.
 
-Copyright 2017 Olof Sjödin <me@olofsjodin.se>
+Copyright 2018 Olof Sjödin <me@olofsjodin.se>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
